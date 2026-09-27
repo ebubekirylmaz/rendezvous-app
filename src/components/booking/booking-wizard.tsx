@@ -302,7 +302,7 @@ export function BookingWizard({ business }: { business: BusinessData }) {
               When would you like to come in?
             </h1>
 
-            <div className="flex gap-2.5">
+            <div className="-mx-5 flex gap-2.5 overflow-x-auto px-5 pb-1">
               {dateOptions.map((d, i) => (
                 <button
                   key={d.iso}

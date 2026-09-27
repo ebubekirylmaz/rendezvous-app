@@ -59,7 +59,7 @@ function GearIcon() {
   );
 }
 
-function LogoutIcon() {
+export function LogoutIcon() {
   return (
     <svg
       width="12"
@@ -76,7 +76,7 @@ function LogoutIcon() {
   );
 }
 
-const NAV_ITEMS = [
+export const NAV_ITEMS = [
   { href: "/admin/calendar", label: "Calendar", icon: CalendarIcon },
   { href: "/admin/services", label: "Services", icon: ListIcon },
   { href: "/admin/settings", label: "Settings", icon: GearIcon },
@@ -87,7 +87,7 @@ export function AdminSidebar({ business }: { business: BusinessData }) {
   const [firstName, ...restName] = business.name.split(" ");
 
   return (
-    <aside className="flex h-full w-[260px] flex-shrink-0 flex-col border-r border-border bg-card py-6">
+    <aside className="hidden h-full w-[260px] flex-shrink-0 flex-col border-r border-border bg-card py-6 md:flex">
       <div className="flex items-center gap-3 border-b border-border px-6 pb-5">
         <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary font-heading text-base font-bold text-primary-foreground">
           {business.name

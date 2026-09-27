@@ -88,10 +88,10 @@ export function AdminCalendarView({
   }
 
   return (
-    <div className="flex h-full flex-col gap-4 px-8 py-7">
-      <div className="flex flex-shrink-0 items-start justify-between">
+    <div className="flex h-full flex-col gap-4 px-4 py-5 md:px-8 md:py-7">
+      <div className="flex flex-shrink-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex flex-col gap-2">
-          <h1 className="font-heading text-2xl font-bold text-foreground">Weekly View</h1>
+          <h1 className="font-heading text-xl font-bold text-foreground sm:text-2xl">Weekly View</h1>
           <div className="flex items-center gap-2.5">
             <button
               onClick={() => {
@@ -119,7 +119,11 @@ export function AdminCalendarView({
         <NewAppointmentDialog
           businessId={business.id}
           services={business.services.filter((s) => s.active)}
-          trigger={<Button className="h-11 rounded-full px-5 text-sm font-semibold">+ New Appointment</Button>}
+          trigger={
+            <Button className="h-11 w-full rounded-full px-5 text-sm font-semibold sm:w-auto">
+              + New Appointment
+            </Button>
+          }
         />
       </div>
 
@@ -133,24 +137,28 @@ export function AdminCalendarView({
       </div>
 
       <div className="min-h-0 flex-1 overflow-hidden rounded-2xl border border-border bg-card">
-        <FullCalendar
-          ref={calendarRef}
-          plugins={[timeGridPlugin, interactionPlugin]}
-          initialView="timeGridWeek"
-          headerToolbar={false}
-          allDaySlot={false}
-          nowIndicator
-          height="100%"
-          slotMinTime="09:00:00"
-          slotMaxTime="19:00:00"
-          slotDuration="00:30:00"
-          slotLabelFormat={{ hour: "2-digit", minute: "2-digit", hour12: false }}
-          businessHours={{ daysOfWeek: [1, 2, 3, 4, 5, 6], startTime: "09:00", endTime: "19:00" }}
-          events={events}
-          eventContent={renderEventContent}
-          eventClick={handleEventClick}
-          datesSet={updateTitle}
-        />
+        <div className="h-full overflow-x-auto">
+          <div className="h-full min-w-[720px]">
+            <FullCalendar
+              ref={calendarRef}
+              plugins={[timeGridPlugin, interactionPlugin]}
+              initialView="timeGridWeek"
+              headerToolbar={false}
+              allDaySlot={false}
+              nowIndicator
+              height="100%"
+              slotMinTime="09:00:00"
+              slotMaxTime="19:00:00"
+              slotDuration="00:30:00"
+              slotLabelFormat={{ hour: "2-digit", minute: "2-digit", hour12: false }}
+              businessHours={{ daysOfWeek: [1, 2, 3, 4, 5, 6], startTime: "09:00", endTime: "19:00" }}
+              events={events}
+              eventContent={renderEventContent}
+              eventClick={handleEventClick}
+              datesSet={updateTitle}
+            />
+          </div>
+        </div>
       </div>
 
       <Dialog open={!!selected} onOpenChange={(next) => !next && setSelected(null)}>

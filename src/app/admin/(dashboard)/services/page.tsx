@@ -14,20 +14,61 @@ export default async function AdminServicesPage() {
   if (!business) redirect("/admin/login");
 
   return (
-    <div className="flex h-full flex-col gap-6 px-8 py-7">
-      <div className="flex items-start justify-between">
+    <div className="flex h-full flex-col gap-6 px-4 py-5 md:px-8 md:py-7">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h1 className="font-heading text-2xl font-bold text-foreground">Services</h1>
+          <h1 className="font-heading text-xl font-bold text-foreground sm:text-2xl">Services</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             Manage the services you offer, their duration, and pricing.
           </p>
         </div>
         <ServiceFormDialog
-          trigger={<Button className="h-11 rounded-full px-5 text-sm font-semibold">+ New Service</Button>}
+          trigger={
+            <Button className="h-11 w-full rounded-full px-5 text-sm font-semibold sm:w-auto">
+              + New Service
+            </Button>
+          }
         />
       </div>
 
-      <div className="overflow-hidden rounded-2xl border border-border bg-card">
+      {/* Mobile: card list */}
+      <div className="flex flex-col gap-3 md:hidden">
+        {business.services.map((s) => (
+          <div key={s.id} className="rounded-2xl border border-border bg-card p-4">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <div className="font-semibold text-foreground">{s.name}</div>
+                <div className="mt-0.5 text-sm text-muted-foreground">
+                  {s.durationMinutes} min &middot; ${s.price}
+                </div>
+              </div>
+              <span
+                className={cn(
+                  "flex-shrink-0 rounded-full px-2.5 py-1 text-xs font-medium",
+                  s.active ? "bg-secondary text-primary" : "bg-muted text-muted-foreground"
+                )}
+              >
+                {s.active ? "Active" : "Inactive"}
+              </span>
+            </div>
+            <div className="mt-3 flex items-center gap-4 border-t border-border pt-3">
+              <ServiceFormDialog
+                service={s}
+                trigger={<button className="text-sm font-medium text-primary">Edit</button>}
+              />
+              <DeleteServiceButton serviceId={s.id} serviceName={s.name} />
+            </div>
+          </div>
+        ))}
+        {business.services.length === 0 && (
+          <div className="rounded-2xl border border-border bg-card px-5 py-8 text-center text-sm text-muted-foreground">
+            No services added yet.
+          </div>
+        )}
+      </div>
+
+      {/* Desktop: table */}
+      <div className="hidden overflow-hidden rounded-2xl border border-border bg-card md:block">
         <table className="w-full text-left text-sm">
           <thead>
             <tr className="border-b border-border text-xs uppercase tracking-wide text-muted-foreground">

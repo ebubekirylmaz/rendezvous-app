@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getBusinessById } from "@/lib/data";
 import { AdminSidebar } from "@/components/admin/admin-sidebar";
+import { AdminMobileHeader, AdminMobileTabBar } from "@/components/admin/admin-mobile-nav";
 
 export default async function AdminDashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
@@ -15,9 +16,13 @@ export default async function AdminDashboardLayout({ children }: { children: Rea
   }
 
   return (
-    <div className="flex h-dvh w-full bg-background">
+    <div className="flex h-dvh w-full flex-col bg-background md:flex-row">
       <AdminSidebar business={business} />
-      <div className="flex-1 overflow-y-auto">{children}</div>
+      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+        <AdminMobileHeader business={business} />
+        <div className="flex-1 overflow-y-auto">{children}</div>
+        <AdminMobileTabBar />
+      </div>
     </div>
   );
 }
