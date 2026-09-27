@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Business {
+  id            String        @id @default(cuid())
+  name          String
+  slug          String        @unique
+  phone         String
+  address       String?
+  workingHours  Json
+  adminEmail    String        @unique
+  adminPassword String
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  services     Service[]
+  appointments Appointment[]
+}
+
+model Service {
+  id              String   @id @default(cuid())
+  businessId      String
+  business        Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  name            String
+  durationMinutes Int
+  price           Decimal  @db.Decimal(10, 2)
+  active          Boolean  @default(true)
+  createdAt       DateTime @default(now())
+
+  appointments Appointment[]
+
+  @@index([businessId])
+}
+
+enum AppointmentStatus {
+  confirmed
+  cancelled
+  completed
+}
+
+model Appointment {
+  id            String            @id @default(cuid())
+  businessId    String
+  business      Business          @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  serviceId     String
+  service       Service           @relation(fields: [serviceId], references: [id])
+  customerName  String
+  customerPhone String
+  startTime     DateTime
+  endTime       DateTime
+  status        AppointmentStatus @default(confirmed)
+  createdAt     DateTime          @default(now())
+
+  @@index([businessId, startTime])
+}
