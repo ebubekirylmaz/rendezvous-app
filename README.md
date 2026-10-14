@@ -4,7 +4,7 @@ A full-stack appointment booking app for small service businesses (salons, spas,
 
 Customers pick a service, see real availability, and book in under a minute. The business owner manages everything — calendar, services, working hours, manual bookings — from a protected admin dashboard.
 
-🔗 **Live demo:** _add your deployed URL here_
+🔗 **Live demo:** rendezvous-app-seven.vercel.app
 🔑 **Admin demo login:** `admin@bloombeautystudio.com` / `demo1234`
 
 ## Features
